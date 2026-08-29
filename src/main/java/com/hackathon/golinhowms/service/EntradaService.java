@@ -70,6 +70,10 @@ public class EntradaService {
     public Entrada pegarId(Long id){
         return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID da entrada nao encontrada"));
     }
+    public EntradaResponseDTO buscarId(Long id){
+        Entrada entrad = repository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID nao encontrado"));
+        return toResponse(entrad);
+    }
 
     public EntradaResponseDTO salvar(EntradaRequestDTO dto){
         Entrada entrada = toEntity(dto);

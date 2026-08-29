@@ -4,7 +4,7 @@ public record ProdutoResponseDTO(
         Long idProduto,
         String nomeProduto,
         Long idFornecedor,
-        String nomeFornecedor,
-        Integer quantidade
+        String nomeFornecedor
+        //Integer quantidade
 ) {
 }

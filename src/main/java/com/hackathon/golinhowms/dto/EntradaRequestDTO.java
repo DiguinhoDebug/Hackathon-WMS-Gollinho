@@ -7,9 +7,9 @@ import java.util.List;
 
 public record EntradaRequestDTO(
         @NotNull(message = "Declare o id do produto")
-        List<Long> idProduto,
+        Long idProduto,
         @NotNull(message = "O ID do fornecedor nao pode ser nulo")
-        List<Long> idFornecedor,
+        Long idFornecedor,
         @NotNull(message = "A quantidade nao pode ser nula")
         Integer quantidade
 ) {

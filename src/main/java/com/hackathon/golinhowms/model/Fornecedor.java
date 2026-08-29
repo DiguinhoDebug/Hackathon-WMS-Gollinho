@@ -15,7 +15,7 @@ public class Fornecedor {
     private Long idFornecedor;
 
     private String razaoSocial; //talvez nao e para usar
-    private String nomeFantasma;
+    private String nomeFantasia;
     private String cnpj;
     private Boolean status; //ativo ou inativo
 

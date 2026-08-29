@@ -28,7 +28,7 @@ public class EntradaService {
         this.produtoRepository = produtoRepository;
     }
 
-    public EntradaResponseDTO toResponse(Entrada entrada){
+    private EntradaResponseDTO toResponse(Entrada entrada){
         return new EntradaResponseDTO(
                 entrada.getIdEntrada(),
                 entrada.getDataHora(),
@@ -38,26 +38,18 @@ public class EntradaService {
         );
     }
 
-    public Entrada toEntity(EntradaRequestDTO dto) {
-        List<Produto> produtos = dto.idProduto().stream()
-                .map(id -> produtoRepository.findById(id)
-                        .orElseThrow(() -> new RecursoNaoEncontrado(
-                                "ID do produto não encontrado: " + id
-                        )))
-                .toList();
+    private Entrada toEntity(EntradaRequestDTO dto) {
+        Produto produto = produtoRepository.findById(dto.idProduto())
+                .orElseThrow(() -> new RecursoNaoEncontrado(
+                        "ID do produto não encontrado: " + dto.idProduto()));
 
-        List<Fornecedor> fornecedores = dto.idFornecedor().stream()
-                .map(id -> fornecedorRepository.findById(id)
-                        .orElseThrow(() -> new RecursoNaoEncontrado(
-                                "ID do fornecedor não encontrado: " + id
-                        )))
-                .toList();
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor())
+                .orElseThrow(() -> new RecursoNaoEncontrado(
+                        "ID do fornecedor não encontrado: " + dto.idFornecedor()));
 
         Entrada entrada = new Entrada();
-
-        entrada.setDataHora(LocalDateTime.now());
-        entrada.setProduto(produtos);
-        entrada.setFornecedor(fornecedores);
+        entrada.setProduto(produto);
+        entrada.setFornecedor(fornecedor);
         entrada.setQuantidade(dto.quantidade());
 
         return entrada;
@@ -68,11 +60,11 @@ public class EntradaService {
     }
 
     public Entrada pegarId(Long id){
-        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID da entrada nao encontrada"));
+        return repository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID da entrada não encontrada"));
     }
+
     public EntradaResponseDTO buscarId(Long id){
-        Entrada entrad = repository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID nao encontrado"));
-        return toResponse(entrad);
+        return toResponse(pegarId(id));
     }
 
     public EntradaResponseDTO salvar(EntradaRequestDTO dto){
@@ -82,35 +74,21 @@ public class EntradaService {
     }
 
     public EntradaResponseDTO atualizar(Long id, EntradaRequestDTO dto){
-        List<Produto> produtos = dto.idProduto().stream()
-                .map(idProduto -> produtoRepository.findById(idProduto)
-                        .orElseThrow(() -> new RecursoNaoEncontrado(
-                                "ID do produto não encontrado: " + idProduto
-                        )))
-                .toList();
-
-        List<Fornecedor> fornecedores = dto.idFornecedor().stream()
-                .map(idFornecedores -> fornecedorRepository.findById(idFornecedores)
-                        .orElseThrow(() -> new RecursoNaoEncontrado(
-                                "ID do fornecedor não encontrado: " + idFornecedores
-                        )))
-                .toList();
-
-
         Entrada entrada = pegarId(id);
 
-        entrada.setFornecedor(fornecedores);
-        entrada.setProduto(produtos);
+        Produto produto = produtoRepository.findById(dto.idProduto())
+                .orElseThrow(() -> new RecursoNaoEncontrado(
+                        "ID do produto não encontrado: " + dto.idProduto()));
+
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor())
+                .orElseThrow(() -> new RecursoNaoEncontrado(
+                        "ID do fornecedor não encontrado: " + dto.idFornecedor()));
+
+        entrada.setProduto(produto);
+        entrada.setFornecedor(fornecedor);
         entrada.setQuantidade(dto.quantidade());
+
         Entrada salvo = repository.save(entrada);
         return toResponse(salvo);
     }
-
-    /*
-    public void deletar(Long id){
-        Entrada entrada = pegarId(id);
-        repository.delete(entrada);
-    }
-    */
-
 }

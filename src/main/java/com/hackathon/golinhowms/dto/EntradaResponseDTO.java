@@ -8,9 +8,8 @@ import java.util.List;
 
 public record EntradaResponseDTO(
         Long idEntrada,
-        LocalDateTime data,
-        List<Produto> produtos,
-        List<Fornecedor> fornecedores,
+        LocalDateTime dataHora,
+        Produto produto,
+        Fornecedor fornecedor,
         Integer quantidade
-) {
-}
+) {}

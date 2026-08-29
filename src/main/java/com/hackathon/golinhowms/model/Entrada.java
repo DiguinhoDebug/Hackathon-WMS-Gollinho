@@ -20,6 +20,7 @@ public class Entrada {
     private List<Produto> produto;
     @OneToMany
     private List<Fornecedor> fornecedor;
+    private Integer quantidade;
 
     public Entrada(){}
 }

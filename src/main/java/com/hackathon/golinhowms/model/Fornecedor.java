@@ -14,7 +14,7 @@ public class Fornecedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFornecedor;
 
-    private String razaoSocial;
+    private String razaoSocial; //talvez nao e para usar
     private String nomeFantasma;
     private String cnpj;
     private Boolean status; //ativo ou inativo

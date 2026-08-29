@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  background-color: #f4f7fb;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visível para acessibilidade */
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Scrollbar discreta, alinhada ao padrão do sistema */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #bfdbfe;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Popup do SweetAlert2 seguindo a identidade azul/branco do WMS */
+.swal2-popup.wms-swal-popup {
+  border-radius: 12px;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+.swal2-confirm.wms-swal-confirm {
+  background-color: #2563eb !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+.swal2-cancel.wms-swal-cancel {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+.swal2-deny.wms-swal-deny {
+  background-color: #dc2626 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}

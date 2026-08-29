@@ -7,7 +7,6 @@ import com.hackathon.golinhowms.model.Fornecedor;
 import com.hackathon.golinhowms.model.Produto;
 import com.hackathon.golinhowms.repository.FornecedorRepository;
 import com.hackathon.golinhowms.repository.ProdutoRepository;
-import org.springframework.data.repository.core.support.RepositoryMethodInvocationListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +15,16 @@ import java.util.List;
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final FornecedorRepository fornecedorRepository;
-    private final RepositoryMethodInvocationListener repositoryMethodInvocationListener;
 
-    public ProdutoService(ProdutoRepository produtoRepository, FornecedorRepository fornecedorRepository, RepositoryMethodInvocationListener repositoryMethodInvocationListener){
+    public ProdutoService(ProdutoRepository produtoRepository, FornecedorRepository fornecedorRepository){
         this.produtoRepository = produtoRepository;
         this.fornecedorRepository = fornecedorRepository;
-        this.repositoryMethodInvocationListener = repositoryMethodInvocationListener;
     }
 
     private ProdutoResponseDTO toResponse(Produto produto){
-
         return new ProdutoResponseDTO(
                 produto.getIdProduto(),
-                produto.getNome(),
+                produto.getNomeProduto(),
                 produto.getFornecedor().getIdFornecedor(),
                 produto.getFornecedor().getNomeFantasma()
         );
@@ -37,9 +33,10 @@ public class ProdutoService {
     private Produto toEntity(ProdutoRequestDTO dto){
         Produto produto = new Produto();
 
-        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor()).orElseThrow(() -> new RecursoNaoEncontrado(""));
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor())
+                .orElseThrow(() -> new RecursoNaoEncontrado("Fornecedor não encontrado"));
 
-        produto.setNome(dto.nomeProduto());
+        produto.setNomeProduto(dto.nomeProduto());
         produto.setFornecedor(fornecedor);
         return produto;
     }
@@ -49,13 +46,13 @@ public class ProdutoService {
     }
 
     public ProdutoResponseDTO buscarPorId(Long id){
-        Produto pro = produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID do produto nao encontrado"));
+        Produto pro = produtoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontrado("ID do produto não encontrado"));
         return toResponse(pro);
     }
 
-    public List<ProdutoResponseDTO> buscarPorNome(String nome){
-        List<ProdutoResponseDTO> pro = produtoRepository.findByNome(nome).stream().map(this::toResponse).toList();
-        return pro;
+    public List<ProdutoResponseDTO> buscarPorNome(String nomeProduto){
+        return produtoRepository.findByNomeProduto(nomeProduto).stream().map(this::toResponse).toList();
     }
 
     public ProdutoResponseDTO salvar(ProdutoRequestDTO dto){
@@ -65,16 +62,21 @@ public class ProdutoService {
     }
 
     public ProdutoResponseDTO atualizar(Long id, ProdutoRequestDTO dto){
-        Produto produto = produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID do produto nao foi encontrado"));
-        produto.setNome(dto.nomeProduto());
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontrado("ID do produto não foi encontrado"));
+        produto.setNomeProduto(dto.nomeProduto());
 
-        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor()).orElseThrow(() -> new RecursoNaoEncontrado("ID do fornecedor nao encontrado"));
+        Fornecedor fornecedor = fornecedorRepository.findById(dto.idFornecedor())
+                .orElseThrow(() -> new RecursoNaoEncontrado("ID do fornecedor não encontrado"));
         produto.setFornecedor(fornecedor);
-        return toResponse(produto);
+
+        Produto atualizado = produtoRepository.save(produto);
+        return toResponse(atualizado);
     }
 
     public void deletar(Long id){
-        Produto pro = produtoRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontrado("ID do produto nao encontrado"));
+        Produto pro = produtoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontrado("ID do produto não encontrado"));
         produtoRepository.delete(pro);
     }
 }

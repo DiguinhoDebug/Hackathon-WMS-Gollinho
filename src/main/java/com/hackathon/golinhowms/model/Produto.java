@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -16,11 +18,9 @@ public class Produto {
 
     @ManyToOne
     private Fornecedor fornecedor;
-    @ManyToOne
-    private Entrada entrada;
 
-    @ManyToOne
-    private Prateleira prateleira;
+    @OneToMany(mappedBy = "produto")
+    private List<Prateleira> prateleiras;
 
     public Produto(){}
 }

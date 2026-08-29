@@ -91,4 +91,12 @@ public class EntradaService {
         Entrada salvo = repository.save(entrada);
         return toResponse(salvo);
     }
+
+    public List<EntradaResponseDTO> listarPorPeriodo(LocalDateTime de, LocalDateTime ate){
+        if (de != null && ate != null && de.isAfter(ate)) {
+            throw new IllegalArgumentException("Data 'de' não pode ser depois da data 'até'");
+        }
+        return repository.findByDataHoraBetween(de, ate).stream().map(this::toResponse).toList();
+    }
+
 }

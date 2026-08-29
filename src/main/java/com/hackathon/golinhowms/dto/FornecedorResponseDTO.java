@@ -1,4 +1,10 @@
 package com.hackathon.golinhowms.dto;
 
-public class FornecedorResponseDTO{
-}
+public record FornecedorResponseDTO(
+        Long idFornecedor,
+        String razaoSocial,
+        String nomeFantasia,
+        String cnpj,
+        Boolean status,
+        Long idEndereco
+) {}

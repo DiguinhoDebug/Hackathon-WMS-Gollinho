@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EntradaRepository extends JpaRepository<Entrada, Long> {
-    List<Entrada> findByDia(LocalDateTime dateTime);
+    List<Entrada> findByDataHoraBetween(LocalDateTime de, LocalDateTime ate);
 
 }

@@ -14,17 +14,16 @@ public class Fornecedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFornecedor;
 
-    private String razaoSocial; //talvez nao e para usar
+    private String razaoSocial;
     private String nomeFantasia;
     private String cnpj;
-    private Boolean status; //ativo ou inativo
+    private Boolean status;
 
     @OneToOne
     private Endereco enderecos;
-    @OneToMany
-    private List<Produto> produtos;
-    @ManyToOne
-    private Entrada entrada;
 
-    public Fornecedor(){};
+    @OneToMany(mappedBy = "fornecedor")
+    private List<Produto> produtos;
+
+    public Fornecedor(){}
 }

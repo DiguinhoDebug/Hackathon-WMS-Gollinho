@@ -12,12 +12,15 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduto;
 
-    private String nome;
+    private String nomeProduto;
 
     @ManyToOne
     private Fornecedor fornecedor;
     @ManyToOne
     private Entrada entrada;
+
+    @ManyToOne
+    private Prateleira prateleira;
 
     public Produto(){}
 }

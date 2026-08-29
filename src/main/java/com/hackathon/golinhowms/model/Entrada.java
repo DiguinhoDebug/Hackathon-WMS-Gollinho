@@ -1,6 +1,7 @@
 package com.hackathon.golinhowms.model;
 
 import jakarta.persistence.*;
+import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +15,8 @@ public class Entrada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEntrada;
-
-    private LocalDateTime dia;
+    @Timestamp
+    private LocalDateTime dataHora;
     @OneToMany
     private List<Produto> produto;
     @OneToMany

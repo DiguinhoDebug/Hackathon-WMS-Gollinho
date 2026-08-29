@@ -1,4 +1,4 @@
 package com.hackathon.golinhowms.dto;
 
-public class FornecedorResponseDTO {
+public class FornecedorResponseDTO{
 }

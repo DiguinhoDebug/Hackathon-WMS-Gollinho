@@ -1,7 +1,6 @@
 package com.hackathon.golinhowms.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,11 +14,19 @@ public class Entrada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEntrada;
-    @Timestamp
+
     private LocalDateTime dataHora;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "entrada_produto",
+            joinColumns = @JoinColumn(name = "id_entrada"),
+            inverseJoinColumns = @JoinColumn(name = "id_produto"))
     private List<Produto> produto;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "entrada_fornecedor",
+            joinColumns = @JoinColumn(name = "id_entrada"),
+            inverseJoinColumns = @JoinColumn(name = "id_fornecedor"))
     private List<Fornecedor> fornecedor;
     private Integer quantidade;
 

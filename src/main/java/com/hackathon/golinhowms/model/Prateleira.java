@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -20,8 +17,8 @@ public class Prateleira {
     private Integer corredor;
     private Integer quantidade;
 
-    @OneToMany(mappedBy = "prateleira", cascade = CascadeType.ALL)
-    private List<Produto> produtos = new ArrayList<>();
+    @ManyToOne
+    private Produto produto;
 
-    public Prateleira() {}
+    public Prateleira(){}
 }
